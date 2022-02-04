@@ -3,11 +3,7 @@
 
 
 {% block title %}
-    {% if request.resolver_match.url_name == 'add_user' or request.resolver_match.url_name == 'edit_user' %}
-        Users Management
-    {% elif request.resolver_match.url_name == 'add_employee' or request.resolver_match.url_name == 'edit_employee' %}
-        Employees Management
-    {% endif %}
+    User Management
 {% endblock %}
 
 
@@ -34,12 +30,8 @@
             <h1 style="color:#003366;">
                 {% if request.resolver_match.url_name == 'add_user' %}
                     Add User
-                {% elif request.resolver_match.url_name == 'edit_user' %}
-                    Edit User
-                {% elif request.resolver_match.url_name == 'add_employee' %}
-                    Add Employee
                 {% else %}
-                    Edit Employee
+                    Edit User
                 {% endif %}
             </h1>
         </div>

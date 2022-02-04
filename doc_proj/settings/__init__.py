@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
+
     # Apps
     'core',
     'profiles'
@@ -125,3 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # User Redirect
 LOGIN_URL = "/login"
 LOGIN_REDIRECT_URL = 'dashboard'
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
