@@ -33,7 +33,7 @@
 
                     <div class="card-body">
                         <div class="row">
-                            {{ profile_form|crispy }}
+                            {{ form|crispy }}
                         </div>
                     </div>
                 </div>
@@ -49,6 +49,12 @@
                             {{ contact_details_form|crispy }}
                         </div>
                     </div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    {% csrf_token %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-danger">Cancel</a>
                 </div>
         </form>
     </div>

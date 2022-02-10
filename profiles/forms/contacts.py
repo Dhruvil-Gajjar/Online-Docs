@@ -1,6 +1,7 @@
 from django import forms
 
-from profiles.models import ContactDetails
+from profiles.models import Profile, ContactDetails
+from django.forms.models import inlineformset_factory
 
 
 class ContactDetailsForm(forms.ModelForm):
@@ -17,3 +18,12 @@ class ContactDetailsForm(forms.ModelForm):
         #     'mobile_no': forms.NumberInput(attrs={'class': 'form-control'}),
         #     'email': forms.TextInput(attrs={'class': 'form-control'}),
         # }
+
+
+ContactDetailsFormSet = inlineformset_factory(
+        Profile,
+        ContactDetails,
+        form=ContactDetailsForm,
+        extra=1,
+        can_delete=True
+    )
