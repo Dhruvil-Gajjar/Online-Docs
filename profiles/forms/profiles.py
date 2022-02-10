@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.admin.widgets import AdminDateWidget
-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit
 
 from profiles.models.profiles import Profile
+from profiles.custom_formset_layout_object import *
 
 
 class ProfileForm(forms.ModelForm):
@@ -13,6 +14,24 @@ class ProfileForm(forms.ModelForm):
                   "gender", "date_of_birth", "marital_status", "category", "certificate_no", "certificate_issued_date",
                   "certificate_issued_from", "non_creamy_layer_no", "non_creamy_layer_date", "certificate_given_by")
 
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = True
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-md-3 create-label'
+        self.helper.field_class = 'col-md-9'
+        self.helper.layout = Layout(
+            Div(
+                # Field('subject'),
+                # Field('owner'),
+                Fieldset('Add Education Details',
+                         Formset('education_details_form')),
+                # Field('note'),
+                HTML("<br>"),
+                ButtonHolder(Submit('submit', 'save')),
+            )
+        )
         # widgets = {
         #     'title': forms.Select(attrs={'class': 'form-control select2'}),
         #     'surname': forms.TextInput(attrs={'class': 'form-control'}),

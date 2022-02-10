@@ -20,43 +20,15 @@
 
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-12">
-            <form method="post">
-                {% csrf_token %}
-
-                <!--        Basic Details            -->
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
-                        <h3 class="card-title">Basic Details</h3>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            {{ form|crispy }}
-                        </div>
-                    </div>
-                </div>
-
-                <!--        Basic Details            -->
-                <div class="card card-outline card-primary">
-                    <div class="card-header with-border">
-                        <h3 class="card-title">Contact Details</h3>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="row">
-                            {{ contact_details_form|crispy }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    {% csrf_token %}
-                    <a href="{% url 'dashboard' %}" class="btn btn-danger">Cancel</a>
-                </div>
-        </form>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Create Profile
+            </div>
+            <div class="card-body">
+                 {% crispy form %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 

@@ -2,13 +2,12 @@ from datetime import datetime
 
 from django.db import transaction
 from django.urls import reverse_lazy
-from django.forms import inlineformset_factory
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import CreateView
 from django.shortcuts import render, redirect, get_object_or_404
 
+from profiles.models import Profile
 from profiles.utils import unique_id_generator
-from profiles.models import Profile, ContactDetails
-from profiles.forms import ProfileForm, ContactDetailsFormSet
+from profiles.forms import ProfileForm, ContactDetailsForm, EducationDetailsFormSet, ProfileDocumentsForm
 
 
 class CreateProfileView(CreateView):
@@ -20,14 +19,20 @@ class CreateProfileView(CreateView):
     def get_context_data(self, **kwargs):
         data = super(CreateProfileView, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['contact_details_form'] = ContactDetailsFormSet(self.request.POST)
+            data['contact_details_form'] = ContactDetailsForm(self.request.POST)
+            data['education_details_form'] = EducationDetailsFormSet(self.request.POST)
+            data['documents_form'] = ProfileDocumentsForm(self.request.POST)
         else:
-            data['contact_details_form'] = ContactDetailsFormSet()
+            data['contact_details_form'] = ContactDetailsForm()
+            data['education_details_form'] = EducationDetailsFormSet()
+            data['documents_form'] = ProfileDocumentsForm()
         return data
 
     def form_valid(self, form):
         context = self.get_context_data()
         contact_details = context['contact_details_form']
+        education_details = context['education_details_form']
+        documents_details = context['documents_form']
         with transaction.atomic():
             form.instance.created_by = self.request.user
             form.instance.user = self.request.user
@@ -35,8 +40,17 @@ class CreateProfileView(CreateView):
             self.object = form.save()
 
             if contact_details.is_valid():
-                contact_details.instance = self.object
+                contact_details.instance.profile = self.object
                 contact_details.save()
+
+            if education_details.is_valid():
+                education_details.instance = self.object
+                education_details.save()
+
+            if documents_details.is_valid():
+                documents_details.instance.profile = self.object
+                documents_details.save()
+
         return super(CreateProfileView, self).form_valid(form)
 
     def get_success_url(self):

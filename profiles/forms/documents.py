@@ -1,14 +1,15 @@
 from django import forms
 
-from profiles.models import Profile, EducationDetails
+from profiles.models import Profile, ProfileDocuments
 from django.forms.models import inlineformset_factory
 
 
-class EducationDetailsForm(forms.ModelForm):
+class ProfileDocumentsForm(forms.ModelForm):
 
     class Meta:
-        model = EducationDetails
-        fields = ("degree", "institute_name", "board_name", "percentage", "passing_year", "trials", "document")
+        model = ProfileDocuments
+        fields = ("user_image", "signature_image", "caste_certificate", "non_creamy_layer_certificate",
+                  "ews_certificate")
 
         # widgets = {
         #     'degree': forms.Select(attrs={'class': 'form-control select2'}),
@@ -21,10 +22,10 @@ class EducationDetailsForm(forms.ModelForm):
         # }
 
 
-EducationDetailsFormSet = inlineformset_factory(
+ProfileDocumentsFormSet = inlineformset_factory(
         Profile,
-        EducationDetails,
-        form=EducationDetailsForm,
+        ProfileDocuments,
+        form=ProfileDocumentsForm,
         extra=1,
         can_delete=True
     )
